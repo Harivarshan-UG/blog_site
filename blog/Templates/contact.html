@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/contact-dark.css' %}">
+
+<div class="container-fluid">
+  <section id="page-contact" class="page-content">
+    <h2 class="contact-title">💌 Get in Touch</h2>
+    <p class="contact-subtitle">We're here to help! Fill out the form below and we'll get back to you shortly.</p>
+
+    <!-- Success Alert (Animated Notification) -->
+    {% if success_message %}
+      <div id="success-alert" class="success-alert">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{{ success_message }}</span>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const alertBox = document.getElementById('success-alert');
+          if (alertBox) {
+            alertBox.classList.add('show');
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+              alertBox.classList.remove('show');
+            }, 3000);
+          }
+        });
+      </script>
+    {% endif %}
+
+    <div class="contact-form-wrapper">
+      <form id="contact-form" method="post" class="contact-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required placeholder="John Doe">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required placeholder="you@example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" required placeholder="What can we help you with?"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit</button>
+      </form>
+    </div>
+  </section>
+</div>
+{% endblock %}

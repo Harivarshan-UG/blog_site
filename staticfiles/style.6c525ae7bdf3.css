@@ -1,0 +1,172 @@
+/* style.css - Blog list layout matching the provided screenshot */
+
+/* Reset / base */
+* { box-sizing: border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size:14px;
+  color:#222;
+  background:#ffffff;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Top navigation */
+.site-navbar{
+  background:#222528; /* dark charcoal */
+  color:#fff;
+  padding:16px 28px;
+  border-bottom:4px solid rgba(0,0,0,0.15);
+}
+.site-navbar .brand{
+  float:left;
+  font-weight:700;
+  font-size:20px;
+  letter-spacing:0.3px;
+}
+.site-navbar .nav-right{
+  float:right;
+}
+.site-navbar .nav-right a{
+  color:#e6e6e6;
+  margin-left:18px;
+  text-decoration:none;
+  font-size:14px;
+}
+.site-navbar::after{ content:""; display:block; clear:both; }
+
+/* Page container */
+.container{
+  width:95%;
+  max-width:1200px;
+  margin:28px auto 80px;
+}
+
+/* Page header */
+.page-title{
+  font-size:36px;
+  font-weight:700;
+  margin:6px 0 22px;
+  color:#111;
+  letter-spacing:1px;
+}
+
+/* Posts grid - 3 columns */
+.posts-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:22px;
+}
+
+/* Responsive adjustments */
+@media (max-width:1100px){ .posts-grid{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width:700px){ .posts-grid{ grid-template-columns: 1fr; } .container{ padding:0 12px; } }
+
+/* Individual post card */
+.post-card{
+  display:flex;
+  align-items:flex-start;
+  background:#fff;
+  border:1px solid #e6e6e6;
+  border-radius:6px;
+  padding:18px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  min-height:110px;
+}
+
+.post-thumb{
+  width:86px;
+  height:64px;
+  background-color:#f6f6f6;
+  border-radius:4px;
+  border:1px solid #eee;
+  margin-right:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#999;
+  font-size:12px;
+  flex:0 0 86px;
+}
+.post-thumb img{ max-width:100%; max-height:100%; display:block; }
+
+.post-body{
+  flex:1 1 auto;
+  display:flex;
+  flex-direction:column;
+}
+.post-meta{
+  display:flex;
+  align-items:flex-start;
+}
+.post-title{
+  font-size:18px;
+  font-weight:700;
+  margin:4px 0 8px;
+  color:#222;
+}
+.post-excerpt{
+  font-size:14px;
+  color:#555;
+  line-height:1.5;
+  margin-bottom:12px;
+}
+
+.post-actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.post-readmore{
+  text-decoration:underline;
+  font-size:13px;
+}
+.post-category{
+  font-weight:700;
+  color:#222;
+  margin-left:12px;
+  white-space:nowrap;
+  font-size:14px;
+}
+
+/* Make category appear to the far right inside the card */
+.post-card .post-actions{
+  width:100%;
+}
+
+/* Footer */
+.site-footer{
+  background:#222528;
+  color:#ddd;
+  padding:18px 28px;
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  font-size:13px;
+}
+.site-footer .container{ margin:0 auto; padding:0; }
+
+/* Small polish */
+a{ color:#0b5ed7; }
+a:hover{ color:#084b9a; }
+
+/* Utility classes for alignment used in templates */
+.text-right{ text-align:right; }
+.small{ font-size:12px; color:#777; }
+
+/* Example card variant to match screenshot spacing where category is aligned right */
+.post-card-row{
+  display:flex;
+  align-items:center;
+}
+.post-card-row .post-body{
+  min-width:0; /* allow text truncation when needed */
+}
+
+/* If you want the category to always hug the right edge of the card */
+.post-category{ margin-left:auto; }
+
+/* End of file */
+

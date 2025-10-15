@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Stylesheet (single include) -->
+<link rel="stylesheet" href="{% static 'css/pagination.css' %}">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="blog-container">
+  <h2 class="page-title">{{ blog_title|upper }}</h2>
+
+  <!-- POSTS GRID: use page_obj.object_list (consistent with paginated view) -->
+  {% if page_obj.object_list %}
+  <div class="posts-grid">
+    {% for post in page_obj.object_list %}
+      <div class="card" data-post-id="{{ post.id }}">
+
+        <!-- Overlay Effect -->
+        <div class="relative card-img-container group">
+          {% if post.img_url %}
+            <img src="{{ post.img_url }}" alt="{{ post.title }}"
+                 class="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:blur-sm group-hover:scale-105">
+          {% endif %}
+          <div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center text-white text-lg font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          </div>
+        </div>
+
+        <div class="card-content-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">{{ post.content|truncatechars:70 }}</p>
+        </div>
+
+        <div class="card-footer">
+          <a href="{% url 'blog:detail' slug=post.slug %}" class="read-more">Read More &rarr;</a>
+          <span class="category">
+            {% if post.category %}
+              {% if post.category.name %}{{ post.category.name }}{% else %}{{ post.category }}{% endif %}
+            {% else %}
+              Uncategorized
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p class="no-posts">No posts available at the moment. Please check back later!</p>
+  {% endif %}
+
+  <!-- PAGINATION (single copy) -->
+  <div id="pagination-container" class="pagination-wrap" aria-label="Pagination">
+    <a class="pagination-btn first" href="?page=1" title="First" {% if not page_obj.has_previous %}aria-disabled="true"{% endif %}>« First</a>
+
+    {% if page_obj.has_previous %}
+      <a class="pagination-btn prev" href="?page={{ page_obj.previous_page_number }}" title="Previous">Previous</a>
+    {% else %}
+      <span class="pagination-btn disabled">Previous</span>
+    {% endif %}
+
+    <div class="page-status">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</div>
+
+    {% if page_obj.has_next %}
+      <a class="pagination-btn next" href="?page={{ page_obj.next_page_number }}" title="Next">Next</a>
+    {% else %}
+      <span class="pagination-btn disabled">Next</span>
+    {% endif %}
+
+    <a class="pagination-btn last" href="?page={{ page_obj.paginator.num_pages }}" title="Last" {% if not page_obj.has_next %}aria-disabled="true"{% endif %}>Last »</a>
+  </div>
+</div>
+
+{% endblock %}
