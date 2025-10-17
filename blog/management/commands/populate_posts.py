@@ -11,6 +11,15 @@ class Command(BaseCommand):
     help= "This command inserts the post data."
     Post.objects.all().delete()
 
+    # blog/management/commands/populate_posts.py
+
+from django.core.management.base import BaseCommand
+# ... other imports (random, Post, Author, Category)
+
+class Command(BaseCommand):
+    # ... other code ...
+
+
     def handle(self, *args: Any, **options:Any):
 
         titles = [
@@ -83,6 +92,21 @@ class Command(BaseCommand):
         ]
 
         categories = Category.objects.all()
+         # --- ENSURE CATEGORIES EXIST ---
+        category_names = ['Technology', 'Travel', 'Food', 'Finance', 'Opinion']
+        
+        # Create categories if they don't exist
+        for name in category_names:
+            Category.objects.get_or_create(name=name)
+            
+        # --- NOW retrieve the categories for random choice ---
+        # This will now safely return a non-empty list
+        categories = list(Category.objects.all()) 
+
+        if not categories:
+             self.stdout.write(self.style.ERROR('FATAL: Still no categories found after attempt to create them.'))
+             return # Exit gracefully
+
         
 
         for title, content, img_url in zip(titles, contents, img_urls):

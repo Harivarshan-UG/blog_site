@@ -6,18 +6,16 @@ from blog.models import Category
 class Command(BaseCommand):
     help = "Inserts default category data and resets IDs to start from 1."
 
-    def handle(self, *args: Any, **options: Any):
-        # Delete all existing data
-        Category.objects.all().delete()
+    def handle(self, *args, **options):
+        # ... Your Category creation logic (get_or_create, etc.) should be here ...
 
-        # Reset the AUTO_INCREMENT counter
-        with connection.cursor() as cursor:
-            cursor.execute("ALTER TABLE blog_category AUTO_INCREMENT = 1;")
+        # Check the database engine before executing vendor-specific SQL
+        if connection.vendor == 'mysql':
+            with connection.cursor() as cursor:
+                # This line only executes if the backend is MySQL
+                cursor.execute("ALTER TABLE blog_category AUTO_INCREMENT = 1;")
+                self.stdout.write(self.style.SUCCESS('Reset AUTO_INCREMENT for MySQL.'))
+        
+        # If the vendor is 'sqlite' (local), this block is skipped, fixing the error.
 
-        # Insert new categories
-        categories = ['Django', 'Programming', 'Sports', 'Entertainment', 'Technology', 'Health', 'Business']
-        for category_name in categories:
-            Category.objects.create(name=category_name)
-
-        self.stdout.write(self.style.SUCCESS("✅ Categories reinserted successfully with IDs starting from 1."))
-
+        self.stdout.write(self.style.SUCCESS('Successfully populated categories.'))
