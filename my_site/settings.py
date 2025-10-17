@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
 # Load .env file
 load_dotenv()
@@ -60,15 +61,23 @@ TEMPLATES = [
 WSGI_APPLICATION = "my_site.wsgi.application"
 
 # Database
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": ("blog"),
+#         "USER": ("root"),
+#         "PASSWORD": ("Password@1234"),
+#         "HOST": ("localhost"),
+#         "PORT": ("3306"),
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": ("blog"),
-        "USER": ("root"),
-        "PASSWORD": ("Password@1234"),
-        "HOST": ("localhost"),
-        "PORT": ("3306"),
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///' + str(Path(__file__).resolve().parent.parent / 'db.sqlite3'),
+        conn_max_age=600,
+        # Setting this to read from an environment variable named DATABASE_URL
+    )
 }
 
 # Password validation
